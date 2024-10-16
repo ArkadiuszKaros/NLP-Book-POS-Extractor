@@ -17,7 +17,6 @@ The text data is sourced from the following publicly available datasets on Kaggl
 ## How It Works
 1. **Sentence Extraction**: The script reads the text files of both series and extracts individual sentences.
 2. **POS Tagging**: Each sentence is processed with spaCy to identify various parts of speech, such as nouns, verbs, adjectives, and more.
-3. **Visualization & Statistics**: The data can be visualized to understand the distribution of different parts of speech across the texts.
 
 ## Installation
 
