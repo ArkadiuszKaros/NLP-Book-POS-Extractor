@@ -1,7 +1,11 @@
 import os
 import re
 import spacy
-import tqdm
+from tqdm import tqdm
+import logging
+
+logging.basicConfig(level = logging.INFO, format = "%(message)s")
+# logger = logging.getLogger(__name__)
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -37,6 +41,8 @@ class BookProcessor:
         self.sentences = []
         self.separator = '/'
 
+        logging.info(f'Creating processor for {self.folder}...')
+
     def get_sentences(self, book):
         
         """
@@ -66,6 +72,8 @@ class BookProcessor:
         """
             Process all books in the folder by transforming and extracting sentences.
         """
+
+        logging.info('Extracting sentences from books...')
 
         books = [self.transform_book(book) for book in self.file_list_paths]
 
@@ -136,9 +144,7 @@ class BookProcessor:
             Save the extracted sentences to a file.
         """
 
-        with open("sentences.txt", 'w', encoding = 'utf-8') as file:
-            head = self.separator.join(cols) + '\n'
-            file.write(head)
+        logging.info('Saving extracted sentences with POS stats...')
 
         with open(output_file, 'a', encoding = 'utf-8') as file:
 
@@ -159,7 +165,6 @@ class BookProcessor:
                         pos_extractor = self.extract_pos(sentence)
                         row = self.separator.join([sentence, str(words_number), self.label] + pos_extractor) + '\n'
                         file.write(row)
-
 
 class GameOfThronesProcessor(BookProcessor):
     
@@ -250,6 +255,10 @@ class HarryPotterProcessor(BookProcessor):
             return book
 
 if __name__ == "__main__":
+
+    with open("sentences.txt", 'w+', encoding = 'utf-8') as file:
+        head = '/'.join(cols) + '\n'
+        file.write(head)
 
     # Processing Game of Thrones books
 
